@@ -26,25 +26,27 @@ var app = {
       success: function (data) {
         app.data = data.results
           app.filterRooms(data.results);
-          data.results.forEach(function(message) {
-            if(!message.text) return;
-            //app.escapeHTML(message.text)
-            if (!message.roomname) {
-              message.roomname = 'Main Room';
-            }
-            app.escapeHTML(message.roomname);
-
-            if($('#roomSelect').find('option:selected').val()){
-              app.filterMessages($('#roomSelect').find('option:selected').val())
-            }
-
-          });
+          app.renderMessages()
       },
       error: function (data) {
         console.error('chatterbox: Failed to get message. Error: ', data);
       }
     });
   },
+   renderMessages : function(){
+       app.forEach(function(message) {
+           if(!message.text) return;
+           //app.escapeHTML(message.text)
+           if (!message.roomname) {
+               message.roomname = 'Main Room';
+           }
+           //app.escapeHTML(message.roomname);
+
+           if($('#roomSelect').find('option:selected').val()){
+               app.filterMessages($('#roomSelect').find('option:selected').val())
+           }
+       });
+   },
   addRoom : function(){
     var room = $('#room').val();
     $('#roomSelect').append('<option>' + room + '</option>');
